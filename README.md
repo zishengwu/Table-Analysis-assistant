@@ -144,7 +144,7 @@ print(response)
 Gradio库有dataframe组件，可以用来显示上传表格的内容，实现预览功能。此外，上传的文档会存放在一个临时的路径下，当会话断开后则删除，不会保存到本地中，不占用本地存储。
 
 表格分析助手搭建效果如图：
-
+![image](https://github.com/zishengwu/Table-Analysis-assistant/blob/main/demo.png)
 
 
 
