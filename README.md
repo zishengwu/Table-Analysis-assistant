@@ -76,8 +76,8 @@ print(result)
 
 2.只读取表格路径和基础信息：需要一个目录用于保存文件，需要给出列的信息，模型根据这些信息生成代码，可以支持非常大的表格
 
-三 运行代码字符串
-在python脚本中动态执行python代码，可以用eval或者exec函数。一般来说，eval函数只能计算一个表达式的值，而exec可以执行复杂的代码，一般是多行的python字符串。
+# 三 运行代码字符串
+在python脚本中动态执行python代码，可以用*eval*或者*exec*函数。一般来说，*eval*函数只能计算一个表达式的值，而*exec*可以执行复杂的代码，一般是多行的python字符串。
 ```bash
 exec函数定义如下：
 exec(object[, globals[, locals]])
@@ -103,7 +103,7 @@ response, history = model.chat(tokenizer, prompt, history=[])
 print(response)
 ```
 模型的回答如下：
-
+```
 首先，我们需要导入pandas库，然后读取csv文件。接下来，我们可以使用pandas的`max()`函数来找到age列的最大值，并将结果赋值给变量result。以下是完整的代码：
 ```python
 import pandas as pd
@@ -114,7 +114,7 @@ result = data['age'].max()
 print(result)
 ```
 这段代码将输出age列的最大值。
-
+```
 
 接下来用正则提取出模型回答中的python代码部分：
 ```python
@@ -126,7 +126,7 @@ print(code_string)
 
 提取出来的python代码字符串如下：
 
-"import pandas as pd\n\n# 读取csv文件\ndata = pd.read_csv('/test_short.csv')\n\n# 找到age列的最大值\nresult = data['age'].max()\n\nprint(result)"
+> "import pandas as pd\n\n# 读取csv文件\ndata = pd.read_csv('/test_short.csv')\n\n# 找到age列的最大值\nresult = data['age'].max()\n\nprint(result)"
 
 
 利用exec执行代码，并且把结果赋给大模型。注意这时候需要设置参数`role='observation'`：
@@ -136,8 +136,9 @@ loc = {}
 exec(code_string, None, loc)
 response, history = model.chat(tokenizer, f"result:{loc['result']}", history=history, role='observation')
 print(response)
-根据提供的CSV文件，age列的最大值是44。
 ```
+> 根据提供的CSV文件，age列的最大值是44。
+
 
 # 五 效果展示
 Gradio库有dataframe组件，可以用来显示上传表格的内容，实现预览功能。此外，上传的文档会存放在一个临时的路径下，当会话断开后则删除，不会保存到本地中，不占用本地存储。
